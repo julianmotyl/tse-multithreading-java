@@ -1,4 +1,5 @@
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.HashMap;
 
@@ -9,7 +10,9 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 
 public class RequeteurMongoTest {
-
+	/**
+	 * Test de l'indexation d'un fichier dans MongoDB
+	 */
 	@Test
 	public void indexFileTest() {
 		
@@ -34,10 +37,44 @@ public class RequeteurMongoTest {
 		expectedDocument.append("location", location);
 		expectedDocument.append("name", fileName);
 		expectedDocument.append("word_occu", occurences);
-		//
-		assertNotNull(collection.find().first());
 		
-		assertEquals(expectedDocument, collection.find(whereQuery).first());
+		assertNotNull(collection.find(whereQuery).first());
 		
+		collection.deleteOne(whereQuery);
 	}
+	
+	/**
+	 * Test si on trouve bien le bon document
+	 */
+	@Test 
+	public void searchBestFileTest() {
+		
+		RequeteurMongo requeteur = new RequeteurMongo();
+
+		//Fichier 1
+		String fileName1 = "Logements.txt";
+		String location1 = "data/test/";
+		HashMap<String, Integer> occurences1 = new HashMap<String, Integer>();
+		occurences1.put("maison", 6);
+		occurences1.put("cabane", 4);
+		occurences1.put("villa", 1);
+		
+		requeteur.indexFile(location1, fileName1, occurences1);
+		
+		//Fichier 2
+		String fileName2 = "Amenagements.txt";
+		String location2 = "data/test/";
+		HashMap<String, Integer> occurences2 = new HashMap<String, Integer>();
+		occurences2.put("maison", 3);
+		occurences2.put("cabane", 4);
+		occurences2.put("villa", 2);
+		
+		requeteur.indexFile(location2, fileName2, occurences2);
+		
+		assertEquals("data/test/Amenagements.txt", requeteur.searchBestFile("villa"));
+		assertEquals("data/test/Logements.txt", requeteur.searchBestFile("maison"));
+
+
+	}
+	
 }
