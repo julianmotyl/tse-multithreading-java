@@ -9,11 +9,11 @@ public class WorkerThread {
 	public static String openFile() {
 		StringBuffer sb = new StringBuffer();
 		try {
-			// Le fichier d'entrée
+			// Le fichier d'entrÃ©e
 			File file = new File("src/main/ressources/test.txt");
-			// Créer l'objet File Reader
+			// CrÃ©er l'objet File Reader
 			FileReader fr = new FileReader(file);
-			// Créer l'objet BufferedReader
+			// CrÃ©er l'objet BufferedReader
 			BufferedReader br = new BufferedReader(fr);
 			String line;
 			while ((line = br.readLine()) != null) {
@@ -49,6 +49,31 @@ public class WorkerThread {
 		}
 		System.out.println(map);
 	}
+	
+	/**
+     * Recursive function to descend into the directory tree and find all the files 
+     * that end with ".txt"
+     * @param directoryPath the file path of the top directory
+     **/
+    public static void readDirectory(String directoryPath) {
+        String pattern = ".txt";
+        
+        File directory = new File(directoryPath);
+ 
+        File[] contentsOfDirectory = directory.listFiles();
+
+        if (contentsOfDirectory != null) {
+            for (int i=0; i<contentsOfDirectory.length; i++) {
+                if (contentsOfDirectory[i].isDirectory()) {
+                	readDirectory(contentsOfDirectory[i].getAbsolutePath());
+                } else {
+                    if (contentsOfDirectory[i].getName().endsWith(pattern)) {
+                        System.out.println(contentsOfDirectory[i].getPath());
+                    }
+                }
+            }
+        }
+    }
 
 }
 
