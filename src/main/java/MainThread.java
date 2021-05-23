@@ -53,14 +53,25 @@ public class MainThread { //Doit �tre un singleton
 		return searchedWord;
 	}
 
-	public String getRepertory() {
-		return repertory;
+
+	public String getSearchedWord() {
+		return searchedWord;
 	}
 	
-	
-	private void run() {
+	private static void run(String location) {
 		
-		//Do Something
+		HashMap<String, Integer> occurences = new HashMap<String, Integer>();
+		
+		occurences.put("maison", 3);
+		occurences.put("cabane", 4);
+		occurences.put("villa", 1);
+		
+		String fileName = "Logements.txt";
+		
+		RequeteurMongo requeteur = new RequeteurMongo();
+		requeteur.indexFile(location, fileName, occurences);
+
+
 	}
 
 }

@@ -3,4 +3,12 @@
   <groupId>tse-de3</groupId>
   <artifactId>tse-multitheading-java</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <dependencies>
+    <dependency>
+        <groupId>org.mongodb</groupId>
+        <artifactId>mongodb-driver-sync</artifactId>
+        <version>4.1.2</version>
+    </dependency>
+</dependencies>
+  
 </project>
