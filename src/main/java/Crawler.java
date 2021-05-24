@@ -19,7 +19,7 @@ public class Crawler implements Runnable{
 			crawl(folder);
 			
 			try {
-				Thread.sleep(60000); // le crawler analyse le dossier toutes les 5 minutes
+				Thread.sleep(5000); // le crawler analyse le dossier toutes les 5 secondes
 			} 
 			catch (InterruptedException e) {
 			}

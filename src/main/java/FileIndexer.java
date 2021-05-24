@@ -23,6 +23,7 @@ public class FileIndexer implements Runnable{
 				File file = queue.take();
 				String location = file.getPath();
 				String fileName = file.getName();
+				System.out.println(fileName);
 				System.out.println(file.getPath());
 				String phrase = FileIndexer.openFile(file);
 				HashMap<String, Integer> occurences = decoupePhrase(phrase);

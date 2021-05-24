@@ -32,6 +32,9 @@ public class MainThread { //Doit �tre un singleton
 		
 		clavier.close();
 		
+		/*RequeteurMongo requeteur = new RequeteurMongo();
+		String found = requeteur.searchBestFile(searchedWord);
+		System.out.println("FIle where the word appears the most: " + found );*/
 		
 		Crawler crawler = new Crawler(new File(directoryPath), queue);
 		Thread crawlerThread = new Thread(crawler);
