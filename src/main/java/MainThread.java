@@ -1,19 +1,61 @@
+import java.awt.List;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedTransferQueue;
 
 public class MainThread { //Doit �tre un singleton
 	
-	private String searchedWord;
+	// private String searchedWord;
 	private String repertory;
 	
+	private static Scanner clavier = new Scanner(System.in);
 
-	public MainThread(String searchedWord, String repertory) {
+	/*public MainThread(String searchedWord, String repertory) {
 		this.searchedWord = searchedWord;
 		this.repertory = repertory;
-	}
+	}*/
 
 	public static void main(String[] args) {
 		
-		String directoryPath = "src/main/ressources";
+		// on ne veut pas limiter la capacité de notre stack
+		BlockingQueue<File> queue = new LinkedTransferQueue<>();
+		
+		System.out.println("Entrez votre mot: ");
+		String searchedWord = clavier.nextLine();		
+		
+		System.out.println("Dans quel répertoire souhaiter vous chercher ce mot? ");		
+		String directoryPath = clavier.nextLine();
+		// String directoryPath = "src/main/ressources";
+		
+		clavier.close();
+		
+		/*RequeteurMongo requeteur = new RequeteurMongo();
+		String found = requeteur.searchBestFile(searchedWord);
+		System.out.println("FIle where the word appears the most: " + found );*/
+		
+		Crawler crawler = new Crawler(new File(directoryPath), queue);
+		Thread crawlerThread = new Thread(crawler);
+		crawlerThread.start();
+		
+		int numThreads = 3;
+		Thread indexerThreads[] = new Thread[numThreads];
+		for(int i = 0; i < numThreads; i++) {
+			FileIndexer indexer = new FileIndexer(queue);
+			indexerThreads[i] = new Thread(indexer);
+			indexerThreads[i].start();	
+		}
+		
+		
+		
+		
+	
+		
+		
+		
+		
 		
 		// Ceci ne marche pas et je ne sais pas pourquoi....
 		//WorkerThread.readDirectory(directoryPath);
@@ -49,14 +91,14 @@ public class MainThread { //Doit �tre un singleton
         }
 	}
 	
-	public String getSearchedWord() {
+	/*public String getSearchedWord() {
 		return searchedWord;
 	}
 
 
 	public String getSearchedWord() {
 		return searchedWord;
-	}
+	}*/
 	
 	private static void run(String location) {
 		
