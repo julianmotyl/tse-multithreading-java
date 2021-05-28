@@ -1,4 +1,5 @@
 import java.io.File;
+import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 
 /**
@@ -14,9 +15,12 @@ public class Crawler implements Runnable {
 
 	private final File folder;
 
+	private final ArrayList<File> alreadyDoneFiles;
+
 	public Crawler(File folder, BlockingQueue<File> queue) {
 		this.folder = folder;
 		this.queue = queue;
+		this.alreadyDoneFiles = new ArrayList<File>();
 	}
 
 	public void run() {
@@ -43,7 +47,14 @@ public class Crawler implements Runnable {
 			}
 		} else {
 			if (file.getName().endsWith(pattern)) { // si fichier fini par txt
-				queue.add(file); // on l'ajout a notre queue
+
+				if (alreadyDoneFiles.contains(file)) {
+					// Do nothing
+				} else {
+					queue.add(file); // on l'ajout a notre queue
+					alreadyDoneFiles.add(file); // on signal qu'on a déjà traité le fichier
+				}
+
 			}
 		}
 
