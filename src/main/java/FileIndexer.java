@@ -93,8 +93,9 @@ public class FileIndexer implements Runnable {
 	public static HashMap<String, Integer> decoupePhrase(String phrase) {
 
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		String[] ignored = phrase.split(" ");// on decoupe la phrase par rapport auxx espaces
-
+       // on decoupe la phrase par rapport aux differents points et  espaces
+		String[] ignored = phrase.toLowerCase().replace(".", "").replace("?", "").replace(",", "").replace("!", "").split("['@' ]");// on decoupe la phrase par rapport auxx espaces
+		
 		for (String ignore : ignored) {
 			Integer count = map.get(ignore);
 			if (count == null) {
