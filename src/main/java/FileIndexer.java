@@ -28,7 +28,7 @@ public class FileIndexer implements Runnable {
 		this.running = true;
 		while (this.running) {
 			try {
-				File file = queue.take();// on recupère un element de la queue
+				File file = queue.take();// on recupï¿½re un element de la queue
 				String location = file.getPath(); // on recupere sa localisation
 				String fileName = file.getName(); // on recuprere son nom
 				System.out.println(fileName); // on affiche son nom
@@ -39,7 +39,7 @@ public class FileIndexer implements Runnable {
 																				// nous retourne un hashmap de mot
 																				// assoice nb d'occurence de chaque mot
 				requeteur.indexFile(location, fileName, occurences); // on appel la methode indexFile qui ajout le
-																		// fichier à la base mongo
+																		// fichier ï¿½ la base mongo
 
 			} catch (InterruptedException e) { // si interruption
 				System.out.println(e.getMessage());
@@ -57,7 +57,7 @@ public class FileIndexer implements Runnable {
 	/**
 	 * Permet d'ouvrir un fichier et de copier son contenu dans un String
 	 * 
-	 * @param chemin du fichier txt à lire
+	 * @param chemin du fichier txt ï¿½ lire
 	 * @return strin, le contenu du fichier txt
 	 */
 	public static String openFile(File file) {
@@ -85,7 +85,7 @@ public class FileIndexer implements Runnable {
 	}
 
 	/**
-	 * Permet de creer un hash map de mot avec ses occurences à partir d'une phrase
+	 * Permet de creer un hash map de mot avec ses occurences ï¿½ partir d'une phrase
 	 * 
 	 * @param string, phrase
 	 * @return HashMap(string - mot, integer - occurence du mot)
