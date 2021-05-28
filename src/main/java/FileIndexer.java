@@ -31,8 +31,6 @@ public class FileIndexer implements Runnable {
 				File file = queue.take();// on recup�re un element de la queue
 				String location = file.getPath(); // on recupere sa localisation
 				String fileName = file.getName(); // on recuprere son nom
-				System.out.println(fileName); // on affiche son nom
-				System.out.println(file.getPath()); // on affiche son chemin
 				String phrase = FileIndexer.openFile(file); // on ouvrir le fichier et met son contenu dans un string
 															// "phrase" grace a lamethode openFile
 				HashMap<String, Integer> occurences = decoupePhrase(phrase); // on appel la methode decoupagePhrase qui
@@ -76,8 +74,6 @@ public class FileIndexer implements Runnable {
 			}
 
 			fr.close();
-			System.out.println("Contenu du fichier: ");
-			System.out.println(sb.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -103,12 +99,6 @@ public class FileIndexer implements Runnable {
 			}
 			map.put(ignore, count + 1); // on incremente le nb occurence
 		}
-
-		// pour tests et verifs
-		for (int i = 0; i < ignored.length; i++) {
-			System.out.println(ignored[i]);
-		}
-		System.out.println(map);
 
 		return map;// on retourne le hashmap
 	}

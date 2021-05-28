@@ -3,6 +3,10 @@ import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedTransferQueue;
 
+import org.bson.Document;
+
+import com.mongodb.client.AggregateIterable;
+
 /**
  * Classe permettant de lancer notre appli, demande utilisateur, creation de
  * threads, renvoi de pertinence du fichier le plus pertinent
@@ -19,19 +23,9 @@ public class MainThread {
 		// on ne veut pas limiter la capacité de notre stack
 		BlockingQueue<File> queue = new LinkedTransferQueue<File>();
 
-		System.out.println("Entrez votre mot: ");
-		String searchedWord = clavier.nextLine();
-
 		System.out.println("Dans quel répertoire souhaiter vous chercher ce mot? ");
 		String directoryPath = clavier.nextLine();
-		// String directoryPath = "src/main/ressources";
-
-		clavier.close();
-
-		 RequeteurMongo requeteur = new RequeteurMongo(); String found =
-		 requeteur.searchBestFile(searchedWord);
-		 System.out.println("FIle where the word appears the most: " + found );
-
+		
 		Crawler crawler = new Crawler(new File(directoryPath), queue); // appel du crawler dans le chemin specifi�
 		Thread crawlerThread = new Thread(crawler); // le crawler va lister tout les noms de fichoiers txt qu'il va
 													// trovuer
@@ -46,6 +40,26 @@ public class MainThread {
 		}
 
 		readDirectory(directoryPath);
+		
+		System.out.println("Entrez votre mot: ");
+		String searchedWord = clavier.nextLine();
+
+
+		clavier.close();
+
+		 RequeteurMongo requeteur = new RequeteurMongo(); 
+		 AggregateIterable<Document> founds = requeteur.searchBestFiles(searchedWord, 5L);
+		 if (founds.first() != null) {
+			for (Document document : founds) {
+				Document docOccurence = (Document) document.get("word_occu");
+				Integer nbocurence = docOccurence.getInteger(searchedWord);
+				if (nbocurence != null) {
+					System.out.println("Le document : " + document.get("location") + "contient " + nbocurence + " fois le mot : " + searchedWord);
+				}
+			} 
+		 }
+		 
+
 	}
 
 	public static void readDirectory(String directoryPath) {
