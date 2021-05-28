@@ -62,17 +62,11 @@ public class RequeteurMongo {
 	 * @param word le mot recherch�
 	 * @return L'adresse du fichier le plus pertinant
 	 */
-	public String searchBestFile(String word) {
+	public AggregateIterable<Document> searchBestFiles(String word, Long nbDocs) {
 
 		AggregateIterable<Document> result = collection.aggregate(Arrays
-				.asList(new Document("$sort", new Document("word_occu." + word, -1L)), new Document("$limit", 5L))); // On trie les 5 élément les plus pertinant
-		if (result.first() == null) {
-			return "aucun r�sultat";
-		} else {
-		String filename = (String) result.first().get("name"); // on retourne le nom du fichier
-		String location = (String) result.first().get("location"); // et sa localisation
+				.asList(new Document("$sort", new Document("word_occu." + word, -1L)), new Document("$limit", nbDocs))); // On trie les 5 élément les plus pertinant
 
-		return location + filename; // retur chemin absolu + nom fichier
-		}
+		return result; // des documents
 	}
 }

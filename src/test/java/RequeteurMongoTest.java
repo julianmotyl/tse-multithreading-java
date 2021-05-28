@@ -53,7 +53,7 @@ public class RequeteurMongoTest {
 
 		// Fichier 1
 		String fileName1 = "Logements.txt";
-		String location1 = "data/test/";
+		String location1 = "data/test/Logements.txt";
 		HashMap<String, Integer> occurences1 = new HashMap<String, Integer>();
 		occurences1.put("maison", 6);
 		occurences1.put("cabane", 4);
@@ -63,7 +63,7 @@ public class RequeteurMongoTest {
 
 		// Fichier 2
 		String fileName2 = "Amenagements.txt";
-		String location2 = "data/test/";
+		String location2 = "data/test/Amenagements.txt";
 		HashMap<String, Integer> occurences2 = new HashMap<String, Integer>();
 		occurences2.put("maison", 3);
 		occurences2.put("cabane", 4);
@@ -71,8 +71,8 @@ public class RequeteurMongoTest {
 
 		requeteur.indexFile(location2, fileName2, occurences2);
 
-		assertEquals("data/test/Amenagements.txt", requeteur.searchBestFile("villa"));
-		assertEquals("data/test/Logements.txt", requeteur.searchBestFile("maison"));
+		assertEquals("data/test/Amenagements.txt", requeteur.searchBestFiles("villa", 1L).first().get("location"));
+		assertEquals("data/test/Logements.txt", requeteur.searchBestFiles("maison", 1L).first().get("location"));
 
 		// Netoyage de la base
 		BasicDBObject whereQuery = new BasicDBObject();
