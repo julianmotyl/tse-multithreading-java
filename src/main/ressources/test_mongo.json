@@ -1,0 +1,13 @@
+
+  document =
+ {
+  _id: "1",
+  location : "xx/nn.txt",
+  name: "File1.txt",
+  word_occu: [ 
+  { "word"  : "maison",     "occurence": 10},
+  { "word"  : "chien",    "occurence": 10}
+  ];
+}
+
+// TUpple clé valeur
